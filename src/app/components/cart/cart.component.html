@@ -1,0 +1,34 @@
+
+<div *ngIf="products.length; else emptyCart" class="cart-container">
+    <div class="cart-panel">
+    <div class="cart-item" *ngFor="let product of products">
+      <img src="{{ product.url }}">
+      <div class="cart-item-details">
+        <p>{{ product.name }}</p>
+        <p>${{ product.price }}</p>
+        <label>amount:</label>
+        <select class="select-input" ngModel="{{product.quantity}}">
+          <!-- <select #cart (change)="selectChange(cart.value, product)" class="select-input" aria-label="Default select example"> -->
+
+          <option *ngFor="let option of productCounts">{{option}}</option>
+        </select>
+      </div>
+    </div>
+    <h3>Total : {{ total }}</h3>
+    </div>
+  </div>
+  <form class="cart-panel form-margin" #form="ngForm" (ngSubmit)="submitForm()">
+    <label>Name:</label>
+    <input type="text" name="name" required minlength="5" maxlength="100" placeholder="at least 5 characters" [(ngModel)]="name">
+    <label>location:</label>
+    <input type="text" name="location" required minlength="5" maxlength="100" placeholder="at least 5 characters" [(ngModel)]="location">
+    <label>CreditCard:</label>
+    <input type="number" name="creditCardNumber" required maxlength="16" oninput="this.value=this.value.slice(0,this.maxLength)" placeholder="16 number" [(ngModel)]="creditCardNumber">
+    <input type="submit" [disabled]="form.invalid" value="Submit">
+  </form>
+  
+  <ng-template #emptyCart>
+    <div class="empty-cart-message" >
+        Cart is empty! Please, <a routerLink="/"> add product</a>.
+    </div>
+  </ng-template>
